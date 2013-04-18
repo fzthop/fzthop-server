@@ -23,7 +23,7 @@ DBNAME  = "servers"
 #[]
 BINDADD  = '0.0.0.0'
 TCP_PORT = 1088
-LOGFILE  = 'server.log'
+LogName  = 'server.log'
 
 #------------------------WORK CLASS---------------------------------------------
 
@@ -114,7 +114,7 @@ class MyReceiver(LineReceiver):
             self.transport.write('00')
         self.transport.loseConnection()
 
-def initlog(loglevel):
+def initlog(loglevel,path,logname):
     """
     @RotatingFileHandler( filename[, mode[, maxBytes[,backupCount]]])
     @setLevel
@@ -124,24 +124,27 @@ def initlog(loglevel):
         DEBUG    20
         NOTSET   0
     """
-    cwd = os.getcwd()
-    logpath = cwd     + os.sep + 'log'
-    logfile = logpath + os.sep + LOGFILE
+    logpath =  path + os.sep +'log'
+    logname = logpath + os.sep + logname
     if not os.path.exists(logpath):
-        os.popen("mkdir %s" %logpath)
+        os.makedirs(logpath,0755)
+        #os.popen("mkdir %s" %logpath)
     logger    = logging.getLogger()
-    hdlr      = logging.handlers.RotatingFileHandler(logfile,'a', 10*1024*1024,7)
+    hdlr      = logging.handlers.RotatingFileHandler(logname,'a', 10*1024*1024,7)
     console   = logging.StreamHandler()
     formatter = logging.Formatter('[%(asctime)s][%(levelname)s] %(message)s')
     hdlr.setFormatter(formatter)
     console.setFormatter(formatter)
     logger.addHandler(hdlr)
-    logger.addHandler(console)
+    if loglevel < 20:
+        logger.addHandler(console)
     logger.setLevel(loglevel)
     return logger
 
-def daemonize(pidfile='server.pid',
-              stdin='/dev/null',stdout='/dev/null', stderr='/dev/null',
+def daemonize(pidfile='/dev/null',
+              stdin='/dev/null',
+              stdout='/dev/null',
+              stderr='/dev/null',
               startmsg = 'started with pid %s' ):
     """
          This forks the current process into a daemon.
@@ -191,17 +194,21 @@ def daemonize(pidfile='server.pid',
     os.dup2(so.fileno(), sys.stdout.fileno())
     os.dup2(se.fileno(), sys.stderr.fileno())
 
-
 if __name__ == "__main__":
+    ProPath   = sys.path[0]
+    Pidfile   = ProPath + os.sep + "server.pid"
+    ProStdin  = "/dev/null"
+    ProStdout = "/dev/null"
+    ProStderr = ProPath + os.sep + "error.log"
     try:
         options = sys.argv[1]
     except IndexError:
         options = ''
     if options == '-d':
-        initlog(10)
+        initlog(10,ProPath,LogName)
     else:
-        daemonize()
-        initlog(20)
+        daemonize(Pidfile,ProStdin,ProStdout,ProStderr)
+        initlog(20,ProPath,LogName)
     filterwarnings('ignore', category = MySQLdb.Warning)
     DENY_IPLIST=['172.16.30.12']
     sql  = Mysql(SQLHOST,SQLUSER,SQLPWD,DBNAME)
