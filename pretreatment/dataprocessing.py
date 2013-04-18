@@ -14,7 +14,7 @@ class Datapro():
         self.cpuInfokeys = ('hostid','us','sy','ni','idle', 'wa','hi','si','st','timestamp')
         self.diskInfokeys = ('hostid','filesystem','mountedon','size','used','availused',
                         'sizeuse','nodeuse','timestamp')
-        self.ioInfokeys = ('hostid','await','util','device','timestamp')
+        self.ioInfokeys = ('hostid','rsec','wsec','await','util','device','timestamp')
         self.loadInfokeys = ('hostid','load1','load5','load15','timestamp')
         self.memoryInfokeys = ('hostid','physical_total','physical_used','physical_free',
                           'physical_shard','physical_buffers','physical_cached',
@@ -43,8 +43,8 @@ class Datapro():
                 value.append(info['time'])
                 values.append(tuple(value))
                 break
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux host info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux host info data error:%s\n" %(ipadd,error))
         return table,hostInfokeys,values
 
     def linuxCpuinfo(self,data,ipadd):
@@ -66,8 +66,8 @@ class Datapro():
                 value.append(info['time'])
                 values.append(tuple(value))
                 value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux cpu info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux cpu info data error:%s\n" %(ipadd,error))
         return  table,cpuInfokeys,values
 
     def linuxDiskinfo(self,data,ipadd):
@@ -91,8 +91,8 @@ class Datapro():
                     value.append(info['time'])
                     values.append(tuple(value))
                     value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux disk info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux disk info data error:%s\n" %(ipadd,error))
         return table,diskInfokeys,values
 
     def linuxIoinfo(self,data,ipadd):
@@ -107,19 +107,17 @@ class Datapro():
         try:
             for key in data.keys():
                 info = data[key]
-                #print info
                 ioinfo = info['system']['io']
                 for dev in ioinfo:
                     devinfo = ioinfo[dev]
-                    #print devinfo
                     value.append(info['hostid'])
                     for k in keys:
                         value.append(devinfo[k])
                     value.append(info['time'])
                     values.append(tuple(value))
                     value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux io info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux io info data error:%s\n" %(ipadd,error))
         return table,ioInfokeys,values
 
     def linuxLoadinfo(self,data,ipadd):
@@ -141,8 +139,8 @@ class Datapro():
                 value.append(info['time'])
                 values.append(tuple(value))
                 value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux load info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux load info data error:%s\n" %(ipadd,error))
         return table,loadInfokeys,values
 
     def linuxMemoryinfo(self,data,ipadd):
@@ -172,8 +170,8 @@ class Datapro():
                 value.append(info['time'])
                 values.append(tuple(value))
                 value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux mem info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux mem info data error:%s\n" %(ipadd,error))
         return table,memoryInfokeys,values
 
     def linuxNetinfo(self,data,ipadd):
@@ -197,8 +195,8 @@ class Datapro():
                     value.append(info['time'])
                     values.append(tuple(value))
                     value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux net info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux net info data error:%s\n" %(ipadd,error))
         return table,netInfokeys,values
 
     def linuxProcessinfo(self,data,ipadd):
@@ -220,8 +218,8 @@ class Datapro():
                 value.append(info['time'])
                 values.append(tuple(value))
                 value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux process info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux process info data error:%s\n" %(ipadd,error))
         return table,processInfokeys,values
 
     def linuxHardwareinfo(self,data,ipadd):
@@ -244,8 +242,8 @@ class Datapro():
                 value.append(info['time'])
                 values.append(tuple(value))
                 value = []
-        except (IndexError,KeyError),error:
-            stderr.write("Ip:%s,linux hardware info data error:%s" %(ipadd,error))
+        except (IndexError,KeyError,TypeError),error:
+            stderr.writelines("Ip:%s,linux hardware info data error:%s\n" %(ipadd,error))
         return table,hardwareInfokeys,values
 
 datapro = Datapro()

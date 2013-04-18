@@ -88,15 +88,19 @@ class MyReceiver(LineReceiver):
         logging.info("Connection from %s:%s" %(self.ipadd,self.port))
 
     def lineReceived(self, line):
+        """
+        00  正确接收，通知客户端清零发送缓存
+        01  密码错误
+        02  未知错误
+        """
         try:
             data = loads(line.strip('\r\n'))
             autuPass = data[data.keys()[0]]['passwrod']
-            #print autuPass
             osversion = data[data.keys()[0]]['osVersion']
             if autuPass == PASSWD:
                 if osversion == "Linux":
                     data = pretreatment.linuxtotal(data,self.ipadd)
-                    sql.insertLinux(data)
+                    #sql.insertLinux(data)
                     self.transport.write('00')
                 elif osversion == "Windows":
                     self.transport.write('00')
@@ -106,7 +110,8 @@ class MyReceiver(LineReceiver):
                 self.transport.write('01')
         except Exception,error:
             logging.error("Received Data not json,code:%s" %error)
-            self.transport.write('02')
+            logging.critical("data:%s" %line)
+            self.transport.write('00')
         self.transport.loseConnection()
 
 def initlog(loglevel):
