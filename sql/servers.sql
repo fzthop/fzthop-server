@@ -35,7 +35,7 @@ CREATE TABLE `cpuinfo` (
   `st` varchar(10) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1837 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6226 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,7 +57,7 @@ CREATE TABLE `diskinfo` (
   `nodeuse` varchar(100) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16219 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54399 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `hardwareinfo` (
   `net` varchar(2000) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `hostinfo` (
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `hostid` (`hostid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1747 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6058 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,12 +113,14 @@ DROP TABLE IF EXISTS `ioinfo`;
 CREATE TABLE `ioinfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hostid` varchar(40) NOT NULL DEFAULT '0',
+  `rsec` varchar(20) NOT NULL DEFAULT '0',
+  `wsec` varchar(20) NOT NULL DEFAULT '0',
   `await` varchar(20) NOT NULL DEFAULT '0',
   `util` varchar(20) NOT NULL DEFAULT '0',
   `device` varchar(20) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19891 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2545 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +138,7 @@ CREATE TABLE `loadsinfo` (
   `load15` varchar(5) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1837 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6226 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +164,7 @@ CREATE TABLE `memoryinfo` (
   `swap_free` varchar(20) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1837 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6226 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +183,7 @@ CREATE TABLE `netinfo` (
   `name` varchar(40) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13465 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44330 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +203,7 @@ CREATE TABLE `processinfo` (
   `zombie` varchar(5) NOT NULL DEFAULT '0',
   `timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1837 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6226 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -213,4 +215,4 @@ CREATE TABLE `processinfo` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-16 16:49:16
+-- Dump completed on 2013-04-18 14:53:34
