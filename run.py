@@ -100,7 +100,7 @@ class MyReceiver(LineReceiver):
             if autuPass == PASSWD:
                 if osversion == "Linux":
                     data = pretreatment.linuxtotal(data,self.ipadd)
-                    #sql.insertLinux(data)
+                    sql.insertLinux(data)
                     self.transport.write('00')
                 elif osversion == "Windows":
                     self.transport.write('00')
