@@ -22,7 +22,7 @@ SQLPWD  = "p@ssw0ld_#!@3A"
 DBNAME  = "servers"
 #[]
 BINDADD  = '0.0.0.0'
-TCP_PORT = 1088
+TCP_PORT = 2000
 LogName  = 'server.log'
 
 #------------------------WORK CLASS---------------------------------------------
@@ -54,6 +54,8 @@ class Mysql:
                 formatValues = "%s," * len(keys)
                 formatValues = formatValues.strip(',')
                 if table == 'hostinfo':
+                    sql = "insert  ignore into %s%s values (%s)" %(table,keys,formatValues)
+                elif table == 'hardwareinfo':
                     sql = "insert  ignore into %s%s values (%s)" %(table,keys,formatValues)
                 else:
                     sql = "insert into %s%s values (%s)" %(table,keys,formatValues)

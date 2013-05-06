@@ -15,14 +15,14 @@ class Datapro():
         self.diskInfokeys = ('hostid','filesystem','mountedon','size','used','availused',
                         'sizeuse','nodeuse','timestamp')
         self.ioInfokeys = ('hostid','rsec','wsec','await','util','device','timestamp')
-        self.loadInfokeys = ('hostid','load1','load5','load15','timestamp')
+        self.loadInfokeys = ('hostid','load1','load5','load15','uptime','freetime','timestamp')
         self.memoryInfokeys = ('hostid','physical_total','physical_used','physical_free',
                           'physical_shard','physical_buffers','physical_cached',
                           'buffers_used','buffers_cache',
                           'swap_total','swap_used','swap_free','timestamp')
         self.netInfokeys = ('hostid','input','output', 'ipadd','name','timestamp')
         self.processInfokeys = ('hostid','total','running','sleeping','stopped','zombie','timestamp')
-        self.hardwareInfokeys = ('hostid','blos','system','cpu','mem','cache','disk','net','timestamp')
+        self.hardwareInfokeys = ('hostid','hdmd5','blos','system','cpu','mem','cache','disk','net','timestamp')
 
     def linuxHostinfo(self,data,ipadd):
         """
@@ -149,24 +149,16 @@ class Datapro():
         """
         memoryInfokeys = self.memoryInfokeys
         table = 'memoryinfo'
-        physicalKeys = ('total','used','free','shard','buffers','cached')
-        buffersKeys = ('buffers','cache')
-        swapKeys = ('total','used','free')
+        keys = memoryInfokeys[1:-1]
         value = []
         values = []
         try:
             for key in data.keys():
                 info = data[key]
                 value.append(info['hostid'])
-                physicalMem = info['system']['physicalMem']
-                buffersMem = info['system']['buffersMem']
-                swapMem = info['system']['swapMem']
-                for k in physicalKeys:
-                    value.append(physicalMem[k])
-                for k in buffersKeys:
-                    value.append(buffersMem[k])
-                for k in swapKeys:
-                    value.append(swapMem[k])
+                mem = info['system']['mem']
+                for k in keys:
+                    value.append(mem[k])
                 value.append(info['time'])
                 values.append(tuple(value))
                 value = []
@@ -249,13 +241,3 @@ class Datapro():
 datapro = Datapro()
 if __name__ == "__main__":
     print "linux"
-#    print pretreatment[pretreatment.keys()[0]]['system']['netCard']
-#    print datapro.linuxHostinfo(pretreatment)
-#    print datapro.linuxCpuinfo(pretreatment)
-#    print datapro.linuxDiskinfo(pretreatment)
-#    print datapro.linuxIoinfo(pretreatment)
-#    print datapro.linuxLoadinfo(pretreatment)
-#    print datapro.linuxMemoryinfo(pretreatment)
-#    print datapro.linuxNetinfo(pretreatment)
-#    print datapro.linuxProcessinfo(pretreatment)
-#    print datapro.linuxHardwareinfo(pretreatment)
